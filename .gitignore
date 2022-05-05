@@ -1,0 +1,5 @@
+docker/minio/config/*
+!docker/minio/config/.gitkeep
+
+docker/minio/data/*
+!docker/minio/data/.gitkeep

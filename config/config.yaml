@@ -1,0 +1,4 @@
+aws:
+  accessKey: "minio"
+  secretKey: "minio"
+  bucket: "EDINET_DOCUMENT"

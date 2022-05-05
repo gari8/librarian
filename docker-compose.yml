@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+  worker:
+    container_name: worker
+    depends_on:
+      - redis
+    build:
+      context: ./
+      dockerfile: ./docker/worker/Dockerfile
+    ports:
+      - "8080:8080"
+  redis:
+    image: redis:alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+  minio:
+    container_name: minio
+    image: minio/minio:RELEASE.2021-06-17T00-10-46Z
+    ports:
+      - "9000:9000"
+    environment:
+      - MINIO_ACCESS_KEY=minio
+      - MINIO_SECRET_KEY=minio123
+    entrypoint: sh
+    command: -c "
+      mkdir -p /data/.minio.sys/buckets;
+      cp -r /policies/* /data/.minio.sys/;
+      cp -r /export/* /data/;
+      /usr/bin/minio server /data;
+      "
+    volumes:
+      - ./docker/minio/data:/data
+      - ./docker/minio/export:/export
+      - ./docker/minio/config:/root/.minio
+      - ./docker/minio/policies:/policies
+volumes:
+  redis-data:
