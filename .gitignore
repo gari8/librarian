@@ -3,3 +3,5 @@ docker/minio/config/*
 
 docker/minio/data/*
 !docker/minio/data/.gitkeep
+
+.idea
